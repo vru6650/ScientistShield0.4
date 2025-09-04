@@ -77,6 +77,7 @@ export default function ExecutionVisualizer() {
                 line: event.line,
                 label: `L${event.line}: ${lineContent.substring(0, 25)}${lineContent.length > 25 ? '...' : ''}`,
                 type: type,
+                fullLine: lineContent,
             };
         });
 
@@ -133,6 +134,9 @@ export default function ExecutionVisualizer() {
             .style('font-family', 'monospace')
             .style('font-size', '12px')
             .text(d => d.label);
+
+        // Show the full source line on hover for better context
+        node.append('title').text(d => d.fullLine);
 
         const drag = (simulation) => {
             function dragstarted(event, d) {
