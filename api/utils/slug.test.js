@@ -27,6 +27,12 @@ test('generateSlug returns empty string when given only whitespace', () => {
     assert.strictEqual(slug, '');
 });
 
+test('generateSlug strips diacritics from characters', () => {
+    const slug = generateSlug('Café déjà vu');
+    // The accented characters should be converted to their ASCII equivalents
+    assert.strictEqual(slug, 'cafe-deja-vu');
+});
+
 test('generateSlug throws an error when input is not a string', () => {
     assert.throws(() => generateSlug(123), {
         name: 'TypeError',
