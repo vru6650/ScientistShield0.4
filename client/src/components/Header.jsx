@@ -102,7 +102,7 @@ export default function Header() {
   const [isCommandMenuOpen, setIsCommandMenuOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // NEW: State for the custom dropdown
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const headerRef = useRef(null);
 
   const handleMouseMove = (e) => {
@@ -175,8 +175,12 @@ export default function Header() {
 
   return (
       <>
+        <motion.div
+            className='fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 z-50'
+            style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
+        />
         <motion.header
-            className='fixed top-0 left-0 right-0 z-50 p-2 sm:p-3'
+            className='fixed top-0 left-0 right-0 z-40 p-2 sm:p-3'
             initial={{ y: -100 }}
             animate={{ y: isHeaderVisible ? 0 : -100 }}
             transition={{ duration: 0.35, ease: 'easeInOut' }}
@@ -215,8 +219,8 @@ export default function Header() {
                   const isActive = path === link.path;
                   return (
                       <motion.div variants={navItemVariants} key={link.path}>
-                        <Link id={link.id} to={link.path} className='relative px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors'>
-                          {isActive && (<motion.span layoutId='active-pill' className='absolute inset-0 bg-gray-100 dark:bg-gray-700 rounded-full' style={{ borderRadius: 9999 }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} />)}
+                        <Link id={link.id} to={link.path} className='relative px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all transform hover:scale-105'>
+                          {isActive && (<motion.span layoutId='active-pill' className='absolute inset-0 rounded-full bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-gray-700 dark:to-gray-600' style={{ borderRadius: 9999 }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} />)}
                           <span className='relative z-10'>{link.label}</span>
                         </Link>
                       </motion.div>
