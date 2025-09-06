@@ -18,6 +18,10 @@ function Magnetic({ children }) {
   const ref = useRef(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const handleMouse = (e) => {
+    // Guard against the ref being null. Without this check the component
+    // would throw an error if the mouse event fires before the ref is
+    // attached, which can happen during fast interactions or hot reloads.
+    if (!ref.current) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
     const middleX = clientX - (left + width / 2);
